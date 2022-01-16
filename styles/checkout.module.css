@@ -1,0 +1,13 @@
+.orderitemlist {
+   
+    margin : 25px;
+    
+    }
+    
+.customerdetails {
+      margin-top: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      width: 400px;
+    }

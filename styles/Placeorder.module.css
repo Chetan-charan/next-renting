@@ -1,0 +1,19 @@
+.paymentcheckout {
+    padding: 40px;
+    background-color: white;
+    width: 300px;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 300;
+    /* margin: 20px; */
+    align-items: center;
+  }
+  
+  .itempay{
+    display: flex;
+    
+    gap: 40px;
+  }
+  
+  .itempayable{
+    width: 180px;
+  }

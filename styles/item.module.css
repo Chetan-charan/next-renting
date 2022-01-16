@@ -1,0 +1,16 @@
+
+.item {
+
+    background-color: white;
+  
+  }
+  
+  .itemprice, .itemname {
+    padding-left: 15px;
+  }
+  
+  .itemdetails {
+    display: flex;
+    justify-content: space-between;
+  
+  }

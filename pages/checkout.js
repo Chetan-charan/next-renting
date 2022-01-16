@@ -11,12 +11,12 @@ import ListItemEach from '../components/ListItemEach';
 import checkoutStyles from '../styles/checkout.module.css'
 import 'react-calendar/dist/Calendar.css';
 import { useSelector,useDispatch } from 'react-redux';
-import Link from 'next/link'
+import { useRouter } from 'next/router';
 import {updateOrderAmount,updateDateRange,updateDays,updateCustomerDetails} from '../actions';
 
 export default function CheckOut() {
 
-  
+  const router = useRouter();
   const items = useSelector(state => state.itemUpdateReducer);
   const amount = useSelector(state => state.orderAmountReducer);
   const days = useSelector(state => state.updateDaysReducer);
@@ -34,7 +34,7 @@ export default function CheckOut() {
         
         dispatch(updateOrderAmount(amount*days))
         dispatch(updateCustomerDetails(values));
-        
+        router.push('/placeorder');
 
       }
     });
@@ -90,7 +90,7 @@ export default function CheckOut() {
             variant="standard" />
 
           <Button variant="contained" type='submit' color="success">
-            <Link href='/placeorder'>Place Order</Link> 
+            Place Order
           </Button>
         </div>
       </form>

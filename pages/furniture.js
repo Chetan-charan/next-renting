@@ -5,12 +5,12 @@ import Button from '@mui/material/Button';
 import Badge from '@mui/material/Badge';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import itemStyles from '../styles/items.module.css';
-import Link from 'next/link';
+import { useRouter } from 'next/router';
 
 export default function Furniture({data}){
 
     const dispatch = useDispatch();
- 
+    const router = useRouter();
     const count = useSelector(state => state.orderCountReducer);
 
     const items = useSelector(state => state.itemUpdateReducer);
@@ -19,9 +19,9 @@ export default function Furniture({data}){
     <Button onClick={() =>{
        
        dispatch(updateOrderAmount(items.map(({price}) => price).reduce((price,sum) => price + sum,0)))
-     
+       router.push('/checkout');
    
-     } } style={{marginLeft: '88%',marginBottom: '10px',marginTop: '15px', color: 'green'}}  variant="text"><Link href='/checkout'>checkout</Link>
+     } } style={{marginLeft: '88%',marginBottom: '10px',marginTop: '15px', color: 'green'}}  variant="text">checkout
      <Badge  badgeContent={count} color="secondary">
      <ShoppingCartOutlinedIcon             
   fontSize="large" />

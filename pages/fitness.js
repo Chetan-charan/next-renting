@@ -5,7 +5,7 @@ import Button from '@mui/material/Button';
 import Badge from '@mui/material/Badge';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import itemStyles from '../styles/items.module.css';
-
+import useSWR from 'swr';
 import { useRouter } from 'next/router';
 
 export default function Fitness({data}){
@@ -14,22 +14,30 @@ export default function Fitness({data}){
     const router = useRouter();
     const count = useSelector(state => state.orderCountReducer);
 
+    const fetcher = async (url) => {
+        const res = await fetch(url);
+        const data1 = await res.json();
+        return data1;
+    }
+    const {data:funzone,error} = useSWR('https://equipment-renting.herokuapp.com/funzone', fetcher,{initialData: data,revalidateOnMount: true} );
+    if(error) console.log(error);
     const items = useSelector(state => state.itemUpdateReducer);
     
     return <>
+
     <Button onClick={() =>{
-       
        dispatch(updateOrderAmount(items.map(({price}) => price).reduce((price,sum) => price + sum,0)))
        router.push('/checkout');
        
      } } style={{marginLeft: '88%',marginBottom: '10px',marginTop: '15px', color: 'green'}}  variant="text">checkout
      <Badge  badgeContent={count} color="secondary">
      <ShoppingCartOutlinedIcon             
-  fontSize="large" />
+    fontSize="large" />
    </Badge>
    </Button>
+
    <div className={itemStyles.itemList}>
-    {data.map((item) => <Item key={item._id}  name={item.name} pic={item.picUrl} price={item.price} />)}
+    {funzone ? funzone.map((item) => <Item key={item._id}  name={item.name} pic={item.picUrl} price={item.price}  />): <p>Loading...</p>}
     </div>
     </>
 

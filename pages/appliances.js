@@ -6,6 +6,7 @@ import Badge from '@mui/material/Badge';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import itemStyles from '../styles/items.module.css';
 import { useRouter } from 'next/router';
+import useSWR from 'swr';
 
 export default function Appliances({data}){
 
@@ -14,7 +15,13 @@ export default function Appliances({data}){
     const count = useSelector(state => state.orderCountReducer);
 
     const items = useSelector(state => state.itemUpdateReducer);
-    
+    const fetcher = async (url) => {
+        const res = await fetch(url);
+        const data1 = await res.json();
+        return data1;
+    }
+    const {data:appliances,error} = useSWR('https://equipment-renting.herokuapp.com/appliances', fetcher,{initialData: data,revalidateOnMount: true});
+
     return <>
     <Button onClick={() =>{
        
@@ -28,7 +35,7 @@ export default function Appliances({data}){
    </Badge>
    </Button>
    <div className={itemStyles.itemList}>
-    {data.map((item) => <Item key={item._id}  name={item.name} pic={item.picUrl} price={item.price} />)}
+    {appliances ? appliances.map((item) => <Item key={item._id}  name={item.name} pic={item.picUrl} price={item.price} />) : <p>Laoding..</p>}
     </div>
     </>
 

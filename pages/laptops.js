@@ -6,7 +6,7 @@ import Badge from '@mui/material/Badge';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import itemStyles from '../styles/items.module.css';
 import { useRouter } from 'next/router';
-
+import useSWR from 'swr';
 
 export default function Laptops({data}){
 
@@ -16,6 +16,13 @@ export default function Laptops({data}){
 
     const items = useSelector(state => state.itemUpdateReducer);
     
+    const fetcher = async (url) => {
+        const res = await fetch(url);
+        const data1 = await res.json();
+        return data1;
+    }
+    const {data:laptops,error} = useSWR('https://equipment-renting.herokuapp.com/laptops', fetcher,{initialData: data,revalidateOnMount: true});
+
     return <>
     <Button onClick={() =>{
        
@@ -29,7 +36,7 @@ export default function Laptops({data}){
    </Badge>
    </Button>
    <div className={itemStyles.itemList}>
-    {data.map((item) => <Item key={item._id}  name={item.name} pic={item.picUrl} price={item.price} />)}
+    {laptops? laptops.map((item) => <Item key={item._id}  name={item.name} pic={item.picUrl} price={item.price} />) : <p>Loading...</p>}
     </div>
     </>
 

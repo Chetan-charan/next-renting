@@ -51,7 +51,7 @@ export default function Fitness(){
     <div className={itemStyles.itemList}>
        {arr ? arr.map((item) => <Item key={item._id}  name={item.name} pic={item.picUrl} price={item.price} />): <p>Loading...</p>}
     </div>
-    <button style={{marginBottom: '30px', marginLeft: '700px'}} onClick={() => setSize(size + 1)}>Load More</button>
+    {arr && <button style={{marginBottom: '30px', marginLeft: '700px'}} onClick={() => setSize(size + 1)}>Load More</button>}
     </>
 
 }

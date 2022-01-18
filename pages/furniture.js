@@ -9,7 +9,7 @@ import itemStyles from '../styles/items.module.css';
 import { useRouter } from 'next/router';
 import useSWRInfinite from 'swr/infinite'
 
-export default function Furniture(){
+export default function Furniture({data}){
 
     const dispatch = useDispatch();
     const router = useRouter();
@@ -26,7 +26,7 @@ export default function Furniture(){
         return `https://equipment-renting.herokuapp.com/furniture/${pageIndex}` 
     }
 
-    const { data:furniture, size, setSize } = useSWRInfinite(getKey, fetcher)
+    const { data:furniture, size, setSize } = useSWRInfinite(getKey, fetcher,{initialData: data, revalidateOnMount: true});
     const [arr,setArr] = useState(null);
 
     useEffect(() => {
@@ -56,7 +56,17 @@ export default function Furniture(){
 
 }
 
+Furniture.getInitialProps = async () => {
 
+    const res = await fetch(`https://equipment-renting.herokuapp.com/furniture/0`);
+    const data = await res.json();
+    return {
+        props: {
+            data,
+        }
+    }
+
+}
 
 
 

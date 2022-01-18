@@ -42,7 +42,7 @@ export default function Laptops({data}){
 
 }
 
-export const getStaticProps = async () => {
+Laptops.getInitialProps = async () => {
 
     const res = await fetch(`https://equipment-renting.herokuapp.com/laptops`);
     const data = await res.json();
